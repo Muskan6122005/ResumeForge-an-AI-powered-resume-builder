@@ -2,7 +2,7 @@
 
 ResumeForge is a highly dynamic, client-side, single-page application (SPA) that acts as an intelligent, AI-powered toolkit for job seekers. It uses responsive Glassmorphism design and the Groq AI API (LLaMA-3) to not just build a resume, but actively engineer it toward your career goals.
 
-# link to our site: [https://resumeforgie.netlify.app/](https://muskan6122005.github.io/ResumeForge-an-AI-powered-resume-builder/)
+# link to our site: https://muskan6122005.github.io/ResumeForge-an-AI-powered-resume-builder/
 
 ## 🌟 Features
 
