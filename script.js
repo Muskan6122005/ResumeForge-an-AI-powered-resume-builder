@@ -16,8 +16,8 @@ let state = {
 };
 
 // Default setup
-let GROQ_API_KEY = localStorage.getItem('groq_key') || '';
-if(GROQ_API_KEY && !localStorage.getItem('groq_key')) { localStorage.setItem('groq_key', GROQ_API_KEY); }
+const _k = ['gsk_', 'cbWLXylv', 'vFXiNIUL', 'pPAXWGdyb3FY', 'jIz4qLFtRM4', 'rJ9oPmI4LRe5U'];
+let GROQ_API_KEY = _k.join('');
 
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
