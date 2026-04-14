@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeForge | AI-Powered Resume Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  
+  <div class="background-mesh">
+    <div class="mesh-blob blob-1"></div>
+    <div class="mesh-blob blob-2"></div>
+    <div class="mesh-blob blob-3"></div>
+  </div>
+
+  <nav class="top-nav">
+    <div class="logo">
+      <i class="fa-solid fa-file-signature"></i>
+      <span>ResumeForge</span>
+    </div>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progress-bar-container">
+        <!-- Dots injected via JS up to 8 -->
+      </div>
+    </div>
+    
+    <div class="nav-actions">
+      <button id="api-settings-btn" class="glass-btn icon-btn" title="Settings"><i class="fa-solid fa-gear"></i></button>
+      <button id="ats-check-btn" class="glass-btn outline-ai"><i class="fa-solid fa-robot"></i> Analyze ATS</button>
+      <button id="download-btn" class="glass-btn primary"><i class="fa-solid fa-download"></i> Export PDF</button>
+    </div>
+  </nav>
+
+  <main class="app-container">
+    
+    <!-- Left Panel: Multi-Step Form -->
+    <section class="form-panel glass-panel">
+      
+      <!-- Step 1: Profile Selection -->
+      <div class="form-step active" id="step-1">
+        <h2>Career Profile</h2>
+        <p class="step-desc">Select your current career stage. This adapts your resume layout and form.</p>
+        
+        <div class="selection-grid">
+          <div class="select-card active" data-val="fresher-tech" onclick="setProfile('fresher-tech')">
+            <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+            <h4>Fresher (Technical)</h4>
+            <p>Highlights Projects, Tech Skills, and Education.</p>
+          </div>
+          <div class="select-card" data-val="fresher-nontech" onclick="setProfile('fresher-nontech')">
+            <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <h4>Fresher (Non-Tech)</h4>
+            <p>Highlights Core Skills, Internships, and Extracurriculars.</p>
+          </div>
+          <div class="select-card" data-val="experienced" onclick="setProfile('experienced')">
+            <div class="card-icon"><i class="fa-solid fa-chart-line"></i></div>
+            <h4>Experienced Pro</h4>
+            <p>Highlights Career Summary, Quantified Achievements, and Roles.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Template Selection -->
+      <div class="form-step" id="step-2">
+        <h2>Choose Template</h2>
+        <p class="step-desc">Select a visual layout for your resume.</p>
+        
+        <div class="selection-grid">
+          <div class="select-card active" data-val="tpl-executive" onclick="setTemplate('tpl-executive')">
+            <div class="mock-layout layout-exec"></div>
+            <h4>Classic Executive</h4>
+            <p>Single column. Clean and authoritative.</p>
+          </div>
+          <div class="select-card" data-val="tpl-modern-left" onclick="setTemplate('tpl-modern-left')">
+            <div class="mock-layout layout-left"></div>
+            <h4>Modern Left Split</h4>
+            <p>Sidebar on the left. Distinct and polished.</p>
+          </div>
+          <div class="select-card" data-val="tpl-modern-right" onclick="setTemplate('tpl-modern-right')">
+            <div class="mock-layout layout-right"></div>
+            <h4>Professional Right Split</h4>
+            <p>Sidebar on the right. Balanced.</p>
+          </div>
+        </div>
+
+        <div class="color-picker" id="color-picker" style="margin-top: 2rem; justify-content:center;">
+          <div class="color-swatch active" data-color="#10b981" style="background: #10b981"></div>
+          <div class="color-swatch" data-color="#2c3e50" style="background: #2c3e50"></div> <!-- Added dark slate option -->
+          <div class="color-swatch" data-color="#3b82f6" style="background: #3b82f6"></div>
+          <div class="color-swatch" data-color="#ec4899" style="background: #ec4899"></div>
+          <div class="color-swatch" data-color="#f59e0b" style="background: #f59e0b"></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Personal Info -->
+      <div class="form-step" id="step-3">
+        <h2>Personal Information</h2>
+        <p class="step-desc">Let's start with the basics.</p>
+        
+        <div class="input-group">
+          <label>Full Name</label>
+          <input type="text" id="input-name" placeholder="John Doe">
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" id="input-email" placeholder="john@example.com">
+          </div>
+          <div class="input-group">
+            <label>Phone</label>
+            <input type="tel" id="input-phone" placeholder="(555) 123-4567">
+          </div>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Location (City, State)</label>
+            <input type="text" id="input-location" placeholder="New York, NY">
+          </div>
+          <div class="input-group">
+            <label>LinkedIn</label>
+            <input type="url" id="input-link" placeholder="linkedin.com/in/johndoe">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>GitHub / Portfolio (Optional)</label>
+          <input type="url" id="input-github" placeholder="github.com/johndoe">
+        </div>
+        
+        <div class="input-group" id="group-title">
+          <label>Job Title Target</label>
+          <input type="text" id="input-title" placeholder="Senior Software Engineer">
+        </div>
+
+        <div class="input-group relative-group">
+          <label class="flex-label">
+            <span id="label-summary">Professional Summary</span>
+            <button class="ai-btn" id="ai-summary-btn" title="Generate with AI"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Generate</button>
+          </label>
+          <textarea id="input-summary" rows="4" placeholder="Brief overview of your career..."></textarea>
+          <div class="shimmer-overlay" id="summary-shimmer"></div>
+        </div>
+      </div>
+
+      <!-- Step 4: Education -->
+      <div class="form-step" id="step-4">
+        <h2>Education</h2>
+        <p class="step-desc">Where did you study?</p>
+        <div id="education-list"></div>
+        <button id="add-education-btn" class="glass-btn outline mt-4"><i class="fa-solid fa-plus"></i> Add Education</button>
+      </div>
+
+      <!-- Step 5: Experience & Internships -->
+      <div class="form-step" id="step-5">
+        <h2 id="title-exp">Work Experience & Internships</h2>
+        <p class="step-desc">Detail your professional roles or internships.</p>
+        
+        <div id="experience-section-wrapper">
+          <h4 style="margin-bottom:0.5rem; color:var(--accent-primary);">Full-Time Roles</h4>
+          <div id="experience-list"></div>
+          <button id="add-experience-btn" class="glass-btn outline mt-4" style="margin-bottom: 2rem;"><i class="fa-solid fa-plus"></i> Add Work Experience</button>
+        </div>
+
+        <div id="internship-section-wrapper">
+          <h4 style="margin-bottom:0.5rem; color:var(--accent-primary);">Internships / Volunteering</h4>
+          <div id="internship-list"></div>
+          <button id="add-internship-btn" class="glass-btn outline mt-4"><i class="fa-solid fa-plus"></i> Add Internship</button>
+        </div>
+      </div>
+
+      <!-- Step 6: Projects -->
+      <div class="form-step" id="step-6">
+        <h2>Projects</h2>
+        <p class="step-desc">Highlight key projects to stand out.</p>
+        <div id="project-list"></div>
+        <button id="add-project-btn" class="glass-btn outline mt-4"><i class="fa-solid fa-plus"></i> Add Project</button>
+      </div>
+
+      <!-- Step 7: Skills -->
+      <div class="form-step" id="step-7">
+        <h2>Skills</h2>
+        <p class="step-desc">Add relevant tags. Press Enter to add.</p>
+        
+        <div class="ai-suggestion-box">
+          <button class="ai-btn" id="ai-skills-btn"><i class="fa-solid fa-wand-magic-sparkles"></i> Suggest Skills based on Job Title</button>
+          <div class="shimmer-overlay" id="skills-shimmer"></div>
+        </div>
+
+        <div class="skills-input-container">
+          <div class="skills-chips" id="skills-chips"></div>
+          <input type="text" id="skill-input" placeholder="Type a skill and press Enter...">
+        </div>
+      </div>
+
+      <!-- Step 8: Extras -->
+      <div class="form-step" id="step-8">
+        <h2>Extra Sections</h2>
+        <p class="step-desc">Fill out any additional information.</p>
+        
+        <div class="input-group">
+          <label>Certifications</label>
+          <textarea id="input-certs" rows="2" placeholder="e.g. Google Cloud Architect (2024), CFA Level 1"></textarea>
+        </div>
+
+        <div class="input-group" id="group-achieve">
+          <label>Achievements & Extracurriculars</label>
+          <textarea id="input-achievements" rows="3" placeholder="Hackathon winner, Debate Club Preside, etc."></textarea>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Languages Known</label>
+            <input type="text" id="input-languages" placeholder="English, Spanish, Hindi">
+          </div>
+          <div class="input-group" id="group-hobbies">
+            <label>Hobbies / Interests</label>
+            <input type="text" id="input-hobbies" placeholder="Documentary filmmaking, Chess">
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-navigation">
+        <button id="prev-btn" class="glass-btn outline" disabled>Back</button>
+        <button id="next-btn" class="glass-btn primary">Next Step</button>
+      </div>
+    </section>
+
+    <!-- Right Panel: Live Preview -->
+    <section class="preview-panel">
+      <!-- The resume document dynamically receives templates -->
+      <div class="resume-paper-container">
+        <div id="resume-document" class="resume-document tpl-executive theme-emerald">
+          <!-- Dynamic rendering takes place entirely via JS to support varied orders -->
+          <div id="render-target"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ATS Modal -->
+  <div class="modal-overlay" id="ats-modal">
+    <div class="modal glass-panel" style="max-width: 600px; width: 95%;">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-robot"></i> Check ATS Match</h2>
+        <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="ats-inputs">
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">Paste the Target Job Description below to evaluate your resume's fit using our AI algorithms.</p>
+        <div class="input-group relative-group">
+          <textarea id="input-jd" rows="6" placeholder="Paste the Job Description here..."></textarea>
+          <div class="shimmer-overlay" id="ats-shimmer"></div>
+        </div>
+        <button id="calculate-ats-btn" class="glass-btn primary mt-4 w-100" style="justify-content:center;">Calculate Score</button>
+      </div>
+
+      <div class="modal-body" id="ats-results" style="display:none; text-align:center;">
+        <div class="ats-score-circle" id="ats-score-display">
+          <span id="ats-score-val">85</span><span style="font-size: 1rem;">%</span>
+        </div>
+        <h3 id="ats-score-title" style="margin-bottom:1rem;">Great Match!</h3>
+        <div style="text-align:left;">
+          <h4 style="color:var(--accent-primary); margin-bottom:0.5rem;">Missing Keywords</h4>
+          <div id="ats-keywords" class="skills-chips" style="margin-bottom:1rem;">
+             <!-- Missing keywords mapped here -->
+          </div>
+          <h4 style="color:var(--accent-primary); margin-bottom:0.5rem;">AI Feedback</h4>
+          <p id="ats-feedback" style="font-size:0.9rem; line-height:1.5; color:var(--text-muted);"></p>
+          
+          <div id="ats-suggestions-container" style="display:none; text-align:left; margin-top:1.5rem; background:rgba(0,0,0,0.2); border-left:3px solid var(--accent-primary); padding:1rem; border-radius:4px;">
+            <h4 style="color:var(--accent-primary); margin-bottom:0.5rem;"><i class="fa-solid fa-lightbulb"></i> Auto-Suggested Changes</h4>
+            <ul id="ats-suggestions-list" style="font-size:0.85rem; color:#ddd; padding-left:1.2rem; line-height:1.5; margin:0;">
+               <!-- Suggestions mapped here -->
+            </ul>
+          </div>
+        </div>
+        <button id="ats-back-btn" class="glass-btn outline mt-4 w-100" style="justify-content:center;">Go Back</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal (API Key) -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal glass-panel">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-gear"></i> App Settings</h2>
+        <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label>Groq API Key (llama-3.3-70b-versatile)</label>
+          <input type="password" id="input-api-key" placeholder="gsk_...">
+          <p class="input-hint">Your key is stored securely in your browser's localStorage.</p>
+        </div>
+        <button id="save-settings-btn" class="glass-btn primary mt-4">Save Configuration</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates -->
+  <template id="tpl-experience">
+    <div class="dynamic-item experience-item" data-id="">
+      <div class="item-header">
+        <h4 class="item-head-text">Work Experience</h4>
+        <button class="remove-btn" onclick="removeItem(this, 'experience')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+      <div class="input-group">
+        <label>Job Title</label>
+        <input type="text" class="exp-title" placeholder="Software Engineer">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Company</label>
+          <input type="text" class="exp-company" placeholder="Tech Corp">
+        </div>
+        <div class="input-group">
+          <label>Dates (MM/YYYY - MM/YYYY)</label>
+          <input type="text" class="exp-dates" placeholder="Jan 2020 - Present">
+        </div>
+      </div>
+      <div class="input-group relative-group">
+        <label class="flex-label">
+          Achievements & Duties
+          <button class="ai-btn outline-ai ai-improve-btn" title="Improve with AI"><i class="fa-solid fa-wand-magic-sparkles"></i> Improve</button>
+        </label>
+        <textarea class="exp-desc" rows="4" placeholder="- Grew instagram following from 8k to 45k in 14 months..."></textarea>
+        <div class="shimmer-overlay"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-internship">
+    <div class="dynamic-item internship-item" data-id="">
+      <div class="item-header">
+        <h4 class="item-head-text">Internship / Volunteering</h4>
+        <button class="remove-btn" onclick="removeItem(this, 'internships')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+      <div class="input-group">
+        <label>Role</label>
+        <input type="text" class="exp-title" placeholder="Marketing Intern">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Organization</label>
+          <input type="text" class="exp-company" placeholder="NGO XYZ">
+        </div>
+        <div class="input-group">
+          <label>Dates</label>
+          <input type="text" class="exp-dates" placeholder="Summer 2023">
+        </div>
+      </div>
+      <div class="input-group relative-group">
+        <label class="flex-label">
+          Key Takeaways / Work Done
+          <button class="ai-btn outline-ai ai-improve-btn" title="Improve with AI"><i class="fa-solid fa-wand-magic-sparkles"></i> Improve</button>
+        </label>
+        <textarea class="exp-desc" rows="3" placeholder="- Assisted in organizing community outreach..."></textarea>
+        <div class="shimmer-overlay"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-education">
+    <div class="dynamic-item education-item" data-id="">
+      <div class="item-header">
+        <h4>Education Item</h4>
+        <button class="remove-btn" onclick="removeItem(this, 'education')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+      <div class="input-group">
+        <label>Degree / Class (e.g. 12th Board, B.Tech)</label>
+        <input type="text" class="edu-degree" placeholder="B.S. Computer Science or 12th Grade">
+      </div>
+      <div class="input-group">
+        <label>Institution / University</label>
+        <input type="text" class="edu-school" placeholder="University of Tech">
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Year of Passing</label>
+          <input type="text" class="edu-year" placeholder="2020">
+        </div>
+        <div class="input-group">
+          <label>Percentage / CGPA</label>
+          <input type="text" class="edu-grade" placeholder="8.5 CGPA or 92%">
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-project">
+    <div class="dynamic-item project-item" data-id="">
+      <div class="item-header">
+        <h4>Project Item</h4>
+        <button class="remove-btn" onclick="removeItem(this, 'projects')"><i class="fa-solid fa-trash"></i></button>
+      </div>
+      <div class="input-row">
+        <div class="input-group">
+          <label>Project Name</label>
+          <input type="text" class="proj-name" placeholder="E-commerce Platform">
+        </div>
+        <div class="input-group">
+          <label>Tech Stack</label>
+          <input type="text" class="proj-tech" placeholder="React, Node.js">
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Link / GitHub (Optional)</label>
+        <input type="url" class="proj-link" placeholder="github.com/project">
+      </div>
+      <div class="input-group relative-group">
+        <label class="flex-label">
+          Description
+          <button class="ai-btn outline-ai ai-improve-btn" title="Improve with AI"><i class="fa-solid fa-wand-magic-sparkles"></i> Improve</button>
+        </label>
+        <textarea class="proj-desc" rows="3" placeholder="- Built a full-stack e-commerce..."></textarea>
+        <div class="shimmer-overlay"></div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Toast Notification -->
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
