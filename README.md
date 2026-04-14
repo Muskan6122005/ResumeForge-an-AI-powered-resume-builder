@@ -2,6 +2,8 @@
 
 ResumeForge is a highly dynamic, client-side, single-page application (SPA) that acts as an intelligent, AI-powered toolkit for job seekers. It uses responsive Glassmorphism design and the Groq AI API (LLaMA-3) to not just build a resume, but actively engineer it toward your career goals.
 
+# link to our site: https://resumeforgie.netlify.app/
+
 ## 🌟 Features
 
 - **Dynamic Role-Based Profiles:** Select whether you're a *Fresher (Technical)*, *Fresher (Non-Tech)*, or *Experienced Pro*. The system automatically reshuffles the layout and form input priority to emphasize what recruiters look for in your specific track.
